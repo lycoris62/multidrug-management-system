@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import thedrugking.mms.domain.medicine.application.MedicineService;
-import thedrugking.mms.response.SuccessResponseDto;
+import thedrugking.mms.global.common.response.SuccessResponseDto;
 
 @RestController
 @RequiredArgsConstructor

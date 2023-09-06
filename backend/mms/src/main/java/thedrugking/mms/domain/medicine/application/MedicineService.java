@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import thedrugking.mms.response.SuccessResponseDto;
+import thedrugking.mms.global.common.response.SuccessResponseDto;
 
 import java.io.File;
 import java.io.IOException;
