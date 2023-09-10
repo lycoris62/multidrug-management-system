@@ -15,16 +15,21 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import thedrugking.mms.global.config.security.jwt.JwtFilter;
+import thedrugking.mms.global.config.security.jwt.JwtProvider;
 
 @Slf4j
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
+
+	private final JwtProvider jwtProvider;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -46,8 +51,10 @@ public class WebSecurityConfig {
 		http.cors(getCorsConfiguration());
 		http.sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-		http.authorizeHttpRequests(authz -> authz.requestMatchers("/api/signup").permitAll());
-		http.authorizeHttpRequests(authz -> authz.anyRequest().permitAll());
+		http.authorizeHttpRequests(authz -> authz.requestMatchers("/api/signup", "/api/login").permitAll());
+		http.authorizeHttpRequests(authz -> authz.anyRequest().authenticated());
+
+		http.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 	}
@@ -60,5 +67,10 @@ public class WebSecurityConfig {
 			config.setAllowedHeaders(Collections.singletonList("*"));
 			return config;
 		});
+	}
+
+	@Bean
+	public JwtFilter jwtFilter() {
+		return new JwtFilter(jwtProvider);
 	}
 }
