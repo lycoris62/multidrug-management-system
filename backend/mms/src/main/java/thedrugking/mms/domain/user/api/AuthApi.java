@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import thedrugking.mms.domain.user.application.UserAuthService;
+import thedrugking.mms.domain.user.dto.LoginRequestDto;
+import thedrugking.mms.domain.user.dto.LoginResponseDto;
 import thedrugking.mms.domain.user.dto.SignUpRequestDto;
 import thedrugking.mms.global.common.response.SuccessResponseDto;
 
@@ -25,5 +27,12 @@ public class AuthApi {
 
 		SuccessResponseDto success = userAuthService.signup(request);
 		return ResponseEntity.ok(success);
+	}
+
+	@PostMapping("/api/login")
+	public ResponseEntity<LoginResponseDto> login(@Valid LoginRequestDto request) {
+
+		LoginResponseDto response = userAuthService.login(request);
+		return ResponseEntity.ok(response);
 	}
 }
